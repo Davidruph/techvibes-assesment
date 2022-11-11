@@ -50,7 +50,7 @@
                         </div>
                         <div class="mb-3 px-5">
                             <label for="formFile" class="form-label">Profile Image</label>
-                            <input class="form-control" type="file" name="profile_image">
+                            <input class="form-control @error('profile_image') is-invalid @enderror" type="file" name="profile_image">
                             <small><span class="text-danger">@error('profile_image'){{ $message }}@enderror</span></small>
                         </div>
                         <div class="mb-3 px-5 pb-4">

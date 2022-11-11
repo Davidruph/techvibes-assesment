@@ -45,7 +45,12 @@ class LoginController extends Controller
             return back()->with('error', 'This email is not registered');
         }
     }
-
+    
+    /**
+     * readers
+     *
+     * @return void
+     */
     public function readers(){
         $data = array();
         if (Session::has('id')) {
@@ -53,15 +58,19 @@ class LoginController extends Controller
         }
         return view('readers.index', compact('data'));
     }
-
-    public function librarian(){
-        $data = array();
-        if (Session::has('id')) {
-            $data  = User::where('id', '=', Session::get('id'))->first();
-        }
-        return view('librarian.index', compact('data'));
-    }
-
+    
+    /**
+     * librarian
+     *
+     * @return void
+     */
+   
+    
+    /**
+     * logout
+     *
+     * @return void
+     */
     public function logout(){
         if (Session::has('id')) {
             Session::pull('id');

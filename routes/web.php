@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LibrarianController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
@@ -24,7 +25,15 @@ Route::get('/', function () {
 Route::get('/reader', [LoginController::class, 'readers'])->middleware('isLogged');
 
 //librarian route
-Route::get('/librarian', [LoginController::class, 'librarian'])->middleware('isLogged');
+Route::get('/librarian', [LibrarianController::class, 'index'])->middleware('isLogged');
+Route::get('/librarian/reader-details', [LibrarianController::class, 'show_user_details'])->middleware('isLogged');
+// Route::get('/librarian/checked-out-books', [LoginController::class, 'librarian'])->middleware('isLogged');
+Route::get('/librarian/upload-books', [LibrarianController::class, 'upload_books'])->middleware('isLogged');
+Route::post('/librarian/upload-books', [LibrarianController::class, 'store'])->middleware('isLogged');
+Route::get('/librarian/books/edit/{id}', [LibrarianController::class, 'edit'])->middleware('isLogged');
+Route::post('/librarian/books/update/{id}', [LibrarianController::class, 'update'])->middleware('isLogged');
+Route::get('/librarian/books/delete/{id}', [LibrarianController::class, 'destroy'])->middleware('isLogged');
+
 
 //register route
 Route::get('/register', [RegisterController::class, 'index'])->middleware('alreadyLogged');

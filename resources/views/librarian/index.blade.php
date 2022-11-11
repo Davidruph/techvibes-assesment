@@ -1,30 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Librarian</title>
+@include('librarian.include.header')
 
-    <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+<div class="container">
+    <div class="row justify-content-center pt-3 pb-5">
+        <a href="/librarian/upload-books" class="btn btn-success w-auto ms-auto me-3"><i class="fa fa-plus"></i> Add a Book</a>
+        <h1 class="pb-3 text-center display-5">Book Listings</h1>
+        <div class="col-lg-12">
+            @if (Session::has('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ Session::get('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            @if (Session::has('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ Session::get('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            
+                    <table class="table table-hover" id="dataTable">
+                        <thead class="thead-dark">
+                          <tr>
+                            <th cope="col">#</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">ISBN</th>
+                            <th scope="col">Revision Number</th>
+                            <th scope="col">Published Date</th>
+                            <th scope="col">Publisher</th>
+                            <th scope="col">Author</th>
+                            <th scope="col">Genre</th>
+                            <th scope="col">Cover Image</th>
+                            <th scope="col">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($books_data as $listing)
+                            <tr>
+                                <th scope="row">{{ $loop->iteration }}</th>
+                                <td>{{ $listing->title }}</td>
+                                <td>{{ $listing->isbn }}</td>
+                                <td>{{ $listing->revision_number }}</td>
+                                <td>{{ $listing->published_date }}</td>
+                                <td>{{ $listing->publisher }}</td>
+                                <td>{{ $listing->author }}</td>
+                                <td>{{ $listing->genre }}</td>
+                                <td><img src="{{ asset('books/image/'.$listing->cover_page_image) }}" width="50" height="50" class="img-fluid"></td>
+                                <td>
+                                    <a href="/librarian/books/edit/{{ $listing->id }}" class="me-3 text-decoration-none">
+                                      <i class="fa fa-edit text-primary"></i>
+                                    </a>
+                                    <a href="/librarian/books/delete/{{ $listing->id }}">
+                                      <i class="fa fa-trash text-danger text-decoration-none" onclick="return confirm('Are you sure you want to delete this book details?')"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                      </table>
+               
+        </div>
+    </div>
+</div>
 
-    <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-
-</head>
-<body>
-    <h1>Librarian</h1>
-    {{ $data->id }}
-    <br>
-    {{ $data->name }}
-    <br>
-    {{ $data->email }}
-    <br>
-    {{ $data->role }}
-    <br>
-    <img src="{{ asset('readers/image/'.$data->profile_image) }}" alt="" width="200">
-    <br>
-    <a href="/logout" class="btn btn-danger mt-5">Logout</a>
-</body>
-</html>
+@include('librarian.include.footer')
