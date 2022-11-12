@@ -3,6 +3,7 @@
 use App\Http\Controllers\LibrarianController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ReaderController;
 use App\Http\Controllers\RegisterController;
 
 /*
@@ -18,16 +19,21 @@ use App\Http\Controllers\RegisterController;
 
 //homepage route
 Route::get('/', function () {
-    return view('index');
+    return view('login');
 });
 
 //readers route
-Route::get('/reader', [LoginController::class, 'readers'])->middleware('isLogged');
+Route::get('/reader', [ReaderController::class, 'readers'])->middleware('isLogged');
+Route::post('/reader/search', [ReaderController::class, 'search'])->middleware('isLogged');
+Route::get('/reader/borrow-book', [ReaderController::class, 'show_check_out_form'])->middleware('isLogged');
+Route::post('/reader/borrow-book', [ReaderController::class, 'borrow_a_book'])->middleware('isLogged');
+Route::get('/reader/return-book', [ReaderController::class, 'show_check_in_form'])->middleware('isLogged');
+Route::post('/reader/return-book', [ReaderController::class, 'return_a_book'])->middleware('isLogged');
 
 //librarian route
 Route::get('/librarian', [LibrarianController::class, 'index'])->middleware('isLogged');
 Route::get('/librarian/reader-details', [LibrarianController::class, 'show_user_details'])->middleware('isLogged');
-// Route::get('/librarian/checked-out-books', [LoginController::class, 'librarian'])->middleware('isLogged');
+Route::get('/librarian/checked-out-books', [LibrarianController::class, 'checked_out_books'])->middleware('isLogged');
 Route::get('/librarian/upload-books', [LibrarianController::class, 'upload_books'])->middleware('isLogged');
 Route::post('/librarian/upload-books', [LibrarianController::class, 'store'])->middleware('isLogged');
 Route::get('/librarian/books/edit/{id}', [LibrarianController::class, 'edit'])->middleware('isLogged');

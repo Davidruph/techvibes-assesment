@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\User;
+use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -157,5 +158,20 @@ class LibrarianController extends Controller
         } else {
             return back()->with('error', 'An error occured');
         }
+    }
+    
+    /**
+     * checked_out_books
+     *
+     * @return void
+     */
+    public function checked_out_books()
+    {
+        $data = array();
+        if (Session::has('id')) {
+            $data  = User::where('id', '=', Session::get('id'))->first();
+        }
+        $book_data = Booking::where('mode', '=', 'check out')->get();
+        return view('librarian.checked_out_books', compact('data','book_data'));
     }
 }

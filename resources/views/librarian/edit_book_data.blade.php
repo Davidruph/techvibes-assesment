@@ -21,7 +21,7 @@
                 </div>
             @endif
             <div class="card shadow">
-                <form action="/librarian/books/update/{{ $single_book->id }}" method="post" enctype="multipart/form-single_book">
+                <form action="/librarian/books/update/{{ $single_book->id }}" method="post">
                     @csrf
                     
                     <div class="mb-3 px-5 pt-5">
